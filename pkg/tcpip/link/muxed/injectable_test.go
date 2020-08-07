@@ -51,6 +51,7 @@ func TestInjectableEndpointDispatch(t *testing.T) {
 		Data:               buffer.NewViewFromBytes([]byte{0xFB}).ToVectorisedView(),
 	})
 	pkt.TransportHeader().Push(1)[0] = 0xFA
+	pkt.TransportProtocolNumber = 0
 	packetRoute := stack.Route{RemoteAddress: dstIP}
 
 	endpoint.WritePacket(&packetRoute, nil /* gso */, ipv4.ProtocolNumber, pkt)
@@ -73,6 +74,7 @@ func TestInjectableEndpointDispatchHdrOnly(t *testing.T) {
 		Data:               buffer.NewView(0).ToVectorisedView(),
 	})
 	pkt.TransportHeader().Push(1)[0] = 0xFA
+	pkt.TransportProtocolNumber = 0
 	packetRoute := stack.Route{RemoteAddress: dstIP}
 	endpoint.WritePacket(&packetRoute, nil /* gso */, ipv4.ProtocolNumber, pkt)
 	buf := make([]byte, 6500)
