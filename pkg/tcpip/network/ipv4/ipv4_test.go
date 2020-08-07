@@ -114,6 +114,7 @@ func makeRandPkt(hdrLength int, extraLength int, viewSizes []int) *stack.PacketB
 	if _, err := rand.Read(pkt.TransportHeader().Push(hdrLength)); err != nil {
 		panic(fmt.Sprintf("rand.Read: %s", err))
 	}
+	pkt.TransportProtocolNumber = 0
 	return pkt
 }
 
