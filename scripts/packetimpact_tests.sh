@@ -17,7 +17,9 @@
 source $(dirname $0)/common.sh
 
 make load-packetimpact
+echo hello
 
 install_runsc_for_test runsc-d
+echo goodbye
 QUERY_RESULT=$(query "attr(tags, packetimpact, tests(//test/packetimpact/...))")
 test_runsc $QUERY_RESULT
