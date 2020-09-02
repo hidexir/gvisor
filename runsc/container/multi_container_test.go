@@ -169,7 +169,7 @@ func TestMultiContainerSanity(t *testing.T) {
 // TestMultiPIDNS checks that it is possible to run 2 dead-simple
 // containers in the same sandbox with different pidns.
 func TestMultiPIDNS(t *testing.T) {
-	for name, conf := range configs(t, all...) {
+	for name, conf := range configsWithVFS2(t, all...) {
 		t.Run(name, func(t *testing.T) {
 			rootDir, cleanup, err := testutil.SetupRootDir()
 			if err != nil {
@@ -214,7 +214,7 @@ func TestMultiPIDNS(t *testing.T) {
 
 // TestMultiPIDNSPath checks the pidns path.
 func TestMultiPIDNSPath(t *testing.T) {
-	for name, conf := range configs(t, all...) {
+	for name, conf := range configsWithVFS2(t, all...) {
 		t.Run(name, func(t *testing.T) {
 			rootDir, cleanup, err := testutil.SetupRootDir()
 			if err != nil {
@@ -580,7 +580,7 @@ func TestMultiContainerDestroy(t *testing.T) {
 		t.Fatal("error finding test_app:", err)
 	}
 
-	for name, conf := range configs(t, all...) {
+	for name, conf := range configsWithVFS2(t, all...) {
 		t.Run(name, func(t *testing.T) {
 			rootDir, cleanup, err := testutil.SetupRootDir()
 			if err != nil {
@@ -1252,8 +1252,7 @@ func TestMultiContainerSharedMountReadonly(t *testing.T) {
 
 // Test that shared pod mounts continue to work after container is restarted.
 func TestMultiContainerSharedMountRestart(t *testing.T) {
-	//TODO(gvisor.dev/issue/1487): This is failing with VFS2.
-	for name, conf := range configs(t, all...) {
+	for name, conf := range configsWithVFS2(t, all...) {
 		t.Run(name, func(t *testing.T) {
 			rootDir, cleanup, err := testutil.SetupRootDir()
 			if err != nil {
@@ -1697,7 +1696,6 @@ func TestMultiContainerRunNonRoot(t *testing.T) {
 // TestMultiContainerHomeEnvDir tests that the HOME environment variable is set
 // for root containers, sub-containers, and execed processes.
 func TestMultiContainerHomeEnvDir(t *testing.T) {
-	// TODO(gvisor.dev/issue/1487): VFSv2 configs failing.
 	// NOTE: Don't use overlay since we need changes to persist to the temp dir
 	// outside the sandbox.
 	for testName, conf := range configs(t, noOverlay...) {
